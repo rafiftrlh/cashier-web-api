@@ -6,7 +6,7 @@ const port = 3000
 
 app.use(express.json())
 
-app.use("/api", system_userRoute)
+app.use("/api/system-user", system_userRoute)
 
 app.listen(port, () => {
   console.log(`Server is running in port ${port}`)
