@@ -5,8 +5,8 @@ const port = 3000
 
 app.use(express.json())
 
-app.route("/", (req, res) => {
-  console.log("route /")
+app.get("/api", (req, res) => {
+  res.send("test")
 })
 
 app.listen(port, () => {

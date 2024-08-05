@@ -6,6 +6,77 @@ generator client {
 }
 
 datasource db {
-  provider  = "mysql"
-  url       = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CASHIER
+  WAREHOUSE_STAFF
+}
+
+enum Vip_Status {
+  ACTIVE
+  INACTIVE
+}
+
+model System_Users {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique @db.VarChar(225)
+  password     String         @db.VarChar(225)
+  role         Role
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?
+  transactions Transactions[]
+}
+
+model Vip_Customers {
+  id           Int            @id @default(autoincrement())
+  name         String
+  phone        String         @db.VarChar(20)
+  vipStatus    Vip_Status     @default(ACTIVE)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?
+  transactions Transactions[]
+}
+
+model Products {
+  id                 Int                   @id @default(autoincrement())
+  productCode        String                @db.VarChar(50)
+  stock              Int
+  price              Int
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  deletedAt          DateTime?
+  detailTransactions Detail_Transactions[]
+}
+
+model Transactions {
+  id                 Int                   @id @default(autoincrement())
+  vipCustomerId      Int?
+  vipCustomer        Vip_Customers?        @relation(fields: [vipCustomerId], references: [id])
+  cashierId          Int?
+  cashier            System_Users?         @relation(fields: [cashierId], references: [id])
+  detailTransactions Detail_Transactions[]
+  totalTransaction   Int
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+}
+
+model Detail_Transactions {
+  id            Int          @id @default(autoincrement())
+  transactionId Int
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  productId     Int
+  product       Products     @relation(fields: [productId], references: [id])
+  name          String
+  quantity      Int
+  price         Int
+  sumPrice      Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
