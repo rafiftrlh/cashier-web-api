@@ -22,7 +22,7 @@ enum Vip_Status {
 }
 
 model System_Users {
-  id           Int            @id @default(autoincrement())
+  id           String         @id @default(cuid())
   name         String
   email        String         @unique @db.VarChar(225)
   password     String         @db.VarChar(225)
@@ -34,7 +34,7 @@ model System_Users {
 }
 
 model Vip_Customers {
-  id           Int            @id @default(autoincrement())
+  id           String         @id @default(cuid())
   name         String
   phone        String         @db.VarChar(20)
   vipStatus    Vip_Status     @default(ACTIVE)
@@ -47,6 +47,7 @@ model Vip_Customers {
 model Products {
   id                 Int                   @id @default(autoincrement())
   productCode        String                @db.VarChar(50)
+  name               String // Added name field
   stock              Int
   price              Int
   createdAt          DateTime              @default(now())
@@ -57,9 +58,9 @@ model Products {
 
 model Transactions {
   id                 Int                   @id @default(autoincrement())
-  vipCustomerId      Int?
+  vipCustomerId      String?
   vipCustomer        Vip_Customers?        @relation(fields: [vipCustomerId], references: [id])
-  cashierId          Int?
+  cashierId          String?
   cashier            System_Users?         @relation(fields: [cashierId], references: [id])
   detailTransactions Detail_Transactions[]
   totalTransaction   Int

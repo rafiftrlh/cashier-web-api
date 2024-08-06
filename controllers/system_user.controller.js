@@ -24,7 +24,7 @@ export const getSystemUser = async (req, res) => {
 
     const user = await prisma.system_Users.findFirst({
       where: {
-        id: id
+        id
       }
     })
 
@@ -45,10 +45,10 @@ export const createStaff = async (req, res) => {
 
     await prisma.system_Users.create({
       data: {
-        name: name,
-        email: email,
+        name,
+        email,
         password: hashPassword,
-        role: role,
+        role,
       }
     })
 
@@ -71,7 +71,7 @@ export const softDeleteStaff = async (req, res) => {
         role: true
       },
       where: {
-        id: id
+        id
       }
     })
 
@@ -88,7 +88,7 @@ export const softDeleteStaff = async (req, res) => {
         deletedAt: new Date()
       },
       where: {
-        id: id
+        id
       }
     })
 
@@ -111,7 +111,7 @@ export const forceDeleteStaff = async (req, res) => {
         role: true
       },
       where: {
-        id: id
+        id
       }
     })
 
@@ -125,7 +125,7 @@ export const forceDeleteStaff = async (req, res) => {
 
     await prisma.system_Users.delete({
       where: {
-        id: id
+        id
       }
     })
 
@@ -148,7 +148,7 @@ export const restoreStaff = async (req, res) => {
         deletedAt: true
       },
       where: {
-        id: id
+        id
       }
     })
 
@@ -165,7 +165,7 @@ export const restoreStaff = async (req, res) => {
         deletedAt: null
       },
       where: {
-        id: id
+        id
       }
     })
 
