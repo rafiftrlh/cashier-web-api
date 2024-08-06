@@ -13,7 +13,7 @@ export const getAllSystemUser = async (req, res) => {
     console.error("Error fetching products: ", error)
     res.status(500).json({
       msg: "Internal server error",
-      err: error
+      err: error.message
     })
   }
 }
@@ -33,7 +33,7 @@ export const getSystemUser = async (req, res) => {
     console.error(`Error fetching products: ${error}`)
     res.status(500).json({
       msg: "Internal server error",
-      err: error
+      err: error.message
     })
   }
 }
