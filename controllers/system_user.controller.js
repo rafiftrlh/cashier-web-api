@@ -11,7 +11,30 @@ export const getAllSystemUser = async (req, res) => {
     res.status(200).json(users)
   } catch (error) {
     console.error("Error fetching products: ", error)
-    res.status(500).json({ error: "Internal server error" })
+    res.status(500).json({
+      msg: "Internal server error",
+      err: error
+    })
+  }
+}
+
+export const getSystemUser = async (req, res) => {
+  try {
+    const { id } = req.body
+
+    const user = await prisma.system_Users.findFirst({
+      where: {
+        id: id
+      }
+    })
+
+    res.status(200).json(user)
+  } catch (error) {
+    console.error(`Error fetching products: ${error}`)
+    res.status(500).json({
+      msg: "Internal server error",
+      err: error
+    })
   }
 }
 
