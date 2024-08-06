@@ -4,6 +4,17 @@ import bcrypt from "bcrypt"
 const prisma = new PrismaClient()
 const saltRounds = 10
 
+export const getAllSystemUser = async (req, res) => {
+  try {
+    const users = await prisma.system_Users.findMany()
+
+    res.status(200).json(users)
+  } catch (error) {
+    console.error("Error fetching products: ", error)
+    res.status(500).json({ error: "Internal server error" })
+  }
+}
+
 export const createStaff = async (req, res) => {
   try {
     const { name, email, password, role } = req.body
