@@ -83,6 +83,44 @@ export const createStaff = async (req, res) => {
   }
 }
 
+export const updateStaff = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { name, email, password, role } = req.body
+
+    const existingUser = await prisma.system_Users.findUnique({
+      where: { id },
+    })
+
+    if (!existingUser) {
+      return res.status(404).json({ msg: "User not found" })
+    }
+
+    let updatedData = { name, email, role }
+    if (password) {
+      const hashPassword = await bcrypt.hash(password, saltRounds)
+      updatedData.password = hashPassword
+    }
+
+    const updatedStaff = await prisma.system_Users.update({
+      where: { id },
+      data: updatedData,
+    })
+
+    res.status(200).json({
+      msg: "Staff successfully updated",
+      staff: updatedStaff,
+    })
+  } catch (error) {
+    console.error(`Error updating staff: ${error}`)
+    res.status(500).json({
+      msg: "Failed to update staff",
+      err: error.message,
+    })
+  }
+}
+
+
 export const softDeleteStaff = async (req, res) => {
   try {
     const { id } = req.params

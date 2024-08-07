@@ -6,7 +6,8 @@ import {
   createStaff,
   forceDeleteStaff,
   restoreStaff,
-  softDeleteStaff
+  softDeleteStaff,
+  updateStaff
 } from "../controllers/system_user.controller.js"
 
 const router = express.Router()
@@ -15,8 +16,9 @@ router.get("/", getAllSystemUser)
 router.get("/get-all-staff", getAllStaff)
 router.get("/:id", getSystemUser)
 router.post("/", createStaff)
-router.put("/soft-delete/:id", softDeleteStaff)
-router.put("/restore/:id", restoreStaff)
+router.patch("/:id", updateStaff)
+router.patch("/soft-delete/:id", softDeleteStaff)
+router.patch("/restore/:id", restoreStaff)
 router.delete("/force-delete/:id", forceDeleteStaff)
 
 export default router
