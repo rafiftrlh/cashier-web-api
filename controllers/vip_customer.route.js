@@ -57,3 +57,36 @@ export const createVIPCustomer = async (req, res) => {
     })
   }
 }
+
+export const updateVIPCustomer = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { name, phone, vipStatus } = req.body
+
+    const existingUser = await prisma.vip_Customers.findUnique({
+      where: { id },
+    })
+
+    if (!existingUser) {
+      return res.status(404).json({ msg: "User not found" })
+    }
+
+    let updatedData = { name, phone, vipStatus }
+
+    const updatedStaff = await prisma.vip_Customers.update({
+      where: { id },
+      data: updatedData,
+    })
+
+    res.status(200).json({
+      msg: "Staff successfully updated",
+      staff: updatedStaff,
+    })
+  } catch (error) {
+    console.error(`Error updating vip account: ${error}`)
+    res.status(500).json({
+      msg: "Failed to update vip account",
+      err: error.message,
+    })
+  }
+}
