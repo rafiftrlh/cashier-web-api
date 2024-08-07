@@ -60,8 +60,8 @@ model Transactions {
   id                 Int                   @id @default(autoincrement())
   vipCustomerId      String?
   vipCustomer        Vip_Customers?        @relation(fields: [vipCustomerId], references: [id])
-  cashierId          String?
-  cashier            System_Users?         @relation(fields: [cashierId], references: [id])
+  cashierId          String
+  cashier            System_Users          @relation(fields: [cashierId], references: [id])
   detailTransactions Detail_Transactions[]
   totalTransaction   Int
   createdAt          DateTime              @default(now())
