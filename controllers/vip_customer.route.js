@@ -16,6 +16,28 @@ export const getAllVIPCustomer = async (req, res) => {
   }
 }
 
+export const getVIPCustomer = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const user = await prisma.vip_Customers.findUnique({
+      where: { id }
+    })
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" })
+    }
+
+    res.status(200).json(user)
+  } catch (error) {
+    console.error("Error fetching users: ", error)
+    res.status(500).json({
+      msg: "Internal server error",
+      err: error.message
+    })
+  }
+}
+
 export const createVIPCustomer = async (req, res) => {
   try {
     const { name, phone } = req.body
